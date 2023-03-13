@@ -619,7 +619,7 @@ class ValidatedSoftwareDeviceReportView(generic.ObjectListView):
             "bar_chart": ReportOverviewHelper.plot_barchart_visual(platform_qs, bar_chart_attrs),
             "device_aggr": device_aggr,
             "device_visual": ReportOverviewHelper.plot_piechart_visual(device_aggr, pie_chart_attrs),
-            "report_last_run": report_last_run
+            "report_last_run": report_last_run,
         }
 
     def get_global_aggr(self, request):
