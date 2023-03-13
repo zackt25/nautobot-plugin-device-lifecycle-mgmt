@@ -208,7 +208,12 @@ class ValidatedSoftwareLCMTable(BaseTable):
 class DeviceSoftwareValidationResultTable(BaseTable):
     """Table for device software validation report."""
 
-    name = tables.Column(accessor="device__device_type__model", verbose_name="Device Type")
+    name = tables.LinkColumn(
+        viewname="dcim:devicetype",
+        text=lambda record: record["device__device_type__model"],
+        args=[A("device__device_type__pk")],
+        orderable=False,
+    )
     total = tables.Column(accessor="total", verbose_name="Total")
     valid = tables.Column(accessor="valid", verbose_name="Valid")
     invalid = tables.Column(accessor="invalid", verbose_name="Invalid")

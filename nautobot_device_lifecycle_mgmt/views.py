@@ -561,7 +561,7 @@ class ValidatedSoftwareDeviceReportView(generic.ObjectListView):
     table = DeviceSoftwareValidationResultTable
     template_name = "nautobot_device_lifecycle_mgmt/validatedsoftware_device_report.html"
     queryset = (
-        DeviceSoftwareValidationResult.objects.values("device__device_type__model")
+        DeviceSoftwareValidationResult.objects.values("device__device_type__model", "device__device_type__pk")
         .distinct()
         .annotate(
             total=Count("device__device_type__model"),
@@ -619,7 +619,7 @@ class ValidatedSoftwareDeviceReportView(generic.ObjectListView):
             "bar_chart": ReportOverviewHelper.plot_barchart_visual(platform_qs, bar_chart_attrs),
             "device_aggr": device_aggr,
             "device_visual": ReportOverviewHelper.plot_piechart_visual(device_aggr, pie_chart_attrs),
-            "report_last_run": report_last_run,
+            "report_last_run": report_last_run
         }
 
     def get_global_aggr(self, request):
