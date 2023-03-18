@@ -57,15 +57,14 @@ class ItemSoftware:
     def validate_software(self, preferred_only=False):
         """Validate software against the validated software objects."""
         if not (self.software and self.validated_software_qs.count()):
-            return False
+            return (False, self.validated_software_qs[0])
 
         validated_software_versions = ValidatedSoftwareLCMFilterSet(
             {"valid": True}, self.validated_software_qs.filter(software=self.software)
         ).qs
         if preferred_only:
             validated_software_versions = validated_software_versions.filter(preferred_only=True)
-
-        return validated_software_versions.count() > 0
+        return (validated_software_versions.count() > 0, self.validated_software_qs[0])
 
 
 class DeviceSoftware(ItemSoftware):

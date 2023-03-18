@@ -36,7 +36,7 @@ class DeviceSoftwareValidationFullReport(Job):
             device_software = DeviceSoftware(device)
 
             validate_obj, _ = DeviceSoftwareValidationResult.objects.get_or_create(device=device)
-            validate_obj.is_validated = device_software.validate_software()
+            validate_obj.is_validated, validate_obj.valid_software = device_software.validate_software()
             validate_obj.software = device_software.software
             validate_obj.last_run = job_run_time
             validate_obj.run_type = choices.ReportRunTypeChoices.REPORT_FULL_RUN

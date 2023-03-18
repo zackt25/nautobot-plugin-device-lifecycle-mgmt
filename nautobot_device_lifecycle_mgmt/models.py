@@ -446,11 +446,24 @@ class DeviceSoftwareValidationResult(PrimaryModel):
         related_name="device_software_validation",
     )
     software = models.ForeignKey(
-        to="SoftwareLCM", on_delete=models.CASCADE, help_text="Device software", null=True, blank=True, related_name="+"
+        to="SoftwareLCM", on_delete=models.CASCADE, help_text="Device software", null=True, blank=True
     )
     is_validated = models.BooleanField(null=True, blank=True)
     last_run = models.DateTimeField(null=True, blank=True)
     run_type = models.CharField(max_length=50, choices=choices.ReportRunTypeChoices)
+    valid_software = models.ForeignKey(
+        to="ValidatedSoftwareLCM", on_delete=models.CASCADE, null=True, blank=True, verbose_name="Software"
+    )
+
+    csv_headers = [
+        "device",
+        "software",
+        "is_validated",
+        "last_run",
+        "run_type",
+        "valid_software",
+    ]
+
 
     class Meta:
         """Meta attributes for DeviceSoftwareValidationResult."""
@@ -460,7 +473,14 @@ class DeviceSoftwareValidationResult(PrimaryModel):
 
     def to_csv(self):
         """Indicates model fields to return as csv."""
-        return (self.device.name, self.software.version, self.is_validated, self.last_run, self.run_type)
+        return (
+            self.device.name,
+            self.software if self.software else "None",
+            str(self.is_validated),
+            self.last_run,
+            self.run_type,
+            self.valid_software.software,
+        )
 
 
 @extras_features(

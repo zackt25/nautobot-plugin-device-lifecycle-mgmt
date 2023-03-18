@@ -40,6 +40,7 @@ from nautobot_device_lifecycle_mgmt.models import (
     SoftwareLCM,
     ValidatedSoftwareLCM,
     VulnerabilityLCM,
+    DeviceSoftwareValidationResult,
 )
 
 from .nested_serializers import (
@@ -323,4 +324,27 @@ class VulnerabilityLCMSerializer(
             "software",
             "device",
             "inventory_item",
+        ]
+
+
+class DeviceSoftwareValidationResultSerializer(*serializer_base_classes):  # pylint: disable=too-few-public-methods
+    """REST API serializer for DeviceSoftwareValidationResult records."""
+
+    url = serializers.HyperlinkedIdentityField(
+        view_name="plugins-api:nautobot_device_lifecycle_mgmt-api:devicesoftwarevalidationresult-detail"
+    )
+    device = NestedDeviceSerializer(read_only=True)
+    software = NestedSoftwareLCMSerializer(read_only=True)
+
+    class Meta:  # pylint: disable=too-few-public-methods
+        """Meta attributes."""
+
+        model = DeviceSoftwareValidationResult
+        fields = [
+            "device",
+            "software",
+            "is_validated",
+            "last_run",
+            "run_type",
+            "url",
         ]

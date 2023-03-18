@@ -35,6 +35,7 @@ from nautobot_device_lifecycle_mgmt.tables import (
     SoftwareLCMTable,
     ValidatedSoftwareLCMTable,
     DeviceSoftwareValidationResultTable,
+    DeviceSoftwareValidationResultListTable,
     InventoryItemSoftwareValidationResultTable,
     ContractLCMTable,
     ProviderLCMTable,
@@ -683,6 +684,25 @@ class ValidatedSoftwareDeviceReportView(generic.ObjectListView):
             )
 
         return "\n".join(csv_data)
+
+
+class DeviceSoftwareValidationResultListView(generic.ObjectListView):
+    """DeviceSoftawareValidationResult List view."""
+
+    queryset = DeviceSoftwareValidationResult.objects.all()
+    filterset = DeviceSoftwareValidationResultFilterSet
+    filterset_form = DeviceSoftwareValidationResultFilterForm
+    table = DeviceSoftwareValidationResultListTable
+    action_buttons = (
+        "export",
+    )
+    template_name = "nautobot_device_lifecycle_mgmt/devicesoftwarevalidationresult_list.html"
+
+
+class DeviceSoftwareValidationResultView(generic.ObjectView):
+    """DeviceSoftawareValidationResult Detail view."""
+
+    queryset = DeviceSoftwareValidationResult.objects.all()
 
 
 class ValidatedSoftwareInventoryItemReportView(generic.ObjectListView):

@@ -423,6 +423,10 @@ class DeviceSoftwareValidationResultFilterSet(NautobotFilterSet):
         queryset=SoftwareLCM.objects.all(),
         label="Software",
     )
+    valid = django_filters.BooleanFilter(
+        label="Valid",
+        field_name="is_validated",
+    )
     site_id = django_filters.ModelMultipleChoiceFilter(
         field_name="device__site",
         queryset=Site.objects.all(),
@@ -482,6 +486,10 @@ class DeviceSoftwareValidationResultFilterSet(NautobotFilterSet):
         method="_exclude_sw_missing",
         label="Exclude missing software",
     )
+    sw_missing_only = django_filters.BooleanFilter(
+        method="_sw_missing_only",
+        label="Show only missing software",
+    )
 
     class Meta:
         """Meta attributes for filter."""
@@ -496,6 +504,7 @@ class DeviceSoftwareValidationResultFilterSet(NautobotFilterSet):
             "device_type",
             "device_role",
             "exclude_sw_missing",
+            "sw_missing_only",
         ]
 
     def search(self, queryset, name, value):  # pylint: disable=unused-argument, no-self-use
@@ -509,6 +518,13 @@ class DeviceSoftwareValidationResultFilterSet(NautobotFilterSet):
         """Exclude devices with missing software."""
         if value:
             return queryset.filter(~Q(software=None))
+
+        return queryset
+
+    def _sw_missing_only(self, queryset, name, value):  # pylint: disable=unused-argument, no-self-use
+        """Only show devices with missing software."""
+        if value:
+            return queryset.filter(Q(software=None))
 
         return queryset
 

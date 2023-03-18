@@ -538,6 +538,11 @@ class DeviceSoftwareValidationResultFilterForm(BootstrapMixin, CustomFieldModelF
         to_field_name="version",
         required=False,
     )
+    valid = forms.BooleanField(
+        required=False,
+        widget=StaticSelect2(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        label="Valid",
+    )
     site = DynamicModelMultipleChoiceField(
         queryset=Site.objects.all(),
         to_field_name="slug",
@@ -568,12 +573,17 @@ class DeviceSoftwareValidationResultFilterForm(BootstrapMixin, CustomFieldModelF
         widget=StaticSelect2(choices=BOOLEAN_WITH_BLANK_CHOICES),
         label="Exclude missing software",
     )
+    sw_missing_only = forms.BooleanField(
+        required=False,
+        widget=StaticSelect2(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        label="Show only missing software",
+    )
 
     class Meta:
         """Meta attributes."""
 
         model = DeviceSoftwareValidationResult
-        fields = ["q", "software", "site", "region", "device", "device_type", "device_role", "exclude_sw_missing"]
+        fields = ["q", "software", "valid", "site", "region", "device", "device_type", "device_role", "exclude_sw_missing", "sw_missing_only"]
 
 
 class InventoryItemSoftwareValidationResultFilterForm(BootstrapMixin, CustomFieldModelForm, RelationshipModelForm):

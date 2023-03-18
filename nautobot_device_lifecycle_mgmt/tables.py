@@ -208,16 +208,25 @@ class ValidatedSoftwareLCMTable(BaseTable):
 class DeviceSoftwareValidationResultTable(BaseTable):
     """Table for device software validation report."""
 
-    name = tables.LinkColumn(
-        viewname="dcim:devicetype",
-        text=lambda record: record["device__device_type__model"],
-        args=[A("device__device_type__pk")],
-        orderable=False,
+    name = tables.TemplateColumn(
+        '<a href="/dcim/devices/?device_type_id={{ record.device__device_type__pk }}">{{ record.device__device_type__model }}</a>'
     )
-    total = tables.Column(accessor="total", verbose_name="Total")
-    valid = tables.Column(accessor="valid", verbose_name="Valid")
-    invalid = tables.Column(accessor="invalid", verbose_name="Invalid")
-    no_software = tables.Column(accessor="no_software", verbose_name="No Software")
+    total = tables.TemplateColumn(
+        '<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
+        '?&device_type={{ record.device__device_type__model }}">{{ record.total }}</a>'
+    )
+    valid = tables.TemplateColumn(
+        '<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
+        '?&device_type={{ record.device__device_type__model }}&valid=True&exclude_sw_missing=True">{{ record.valid }}</a>'
+    )
+    invalid = tables.TemplateColumn(
+        '<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
+        '?&device_type={{ record.device__device_type__model }}&valid=False&exclude_sw_missing=True">{{ record.invalid }}</a>'
+    )
+    no_software = tables.TemplateColumn(
+        '<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
+        '?&device_type={{ record.device__device_type__model }}&sw_missing_only=True">{{ record.no_software }}</a>'
+    )
     valid_percent = PercentageColumn(accessor="valid_percent", verbose_name="Compliance (%)")
 
     class Meta(BaseTable.Meta):  # pylint: disable=too-few-public-methods
@@ -234,6 +243,30 @@ class DeviceSoftwareValidationResultTable(BaseTable):
             "valid_percent",
         ]
 
+
+class DeviceSoftwareValidationResultListTable(BaseTable):
+    """Table for a list of device to software validation report."""
+
+    device = tables.Column(accessor="device", verbose_name="Device", linkify=True)
+    software = tables.Column(accessor="software", verbose_name="Current Software", linkify=True)
+    valid = tables.Column(accessor="is_validated", verbose_name="Valid")
+    last_run = tables.Column(accessor="last_run", verbose_name="Last Run")
+    run_type = tables.Column(accessor="run_type", verbose_name="Run Type")
+    valid_software = tables.Column(accessor="valid_software", verbose_name="Validated Software", linkify=True)
+    
+    class Meta(BaseTable.Meta):  # pylint: disable=too-few-public-methods
+        """Metaclass attributes of DeviceSoftwareValidationResultTable."""
+
+        model = DeviceSoftwareValidationResult
+        fields = ["device", "software", "valid", "last_run", "run_type", "valid_software"]
+        default_columns = [
+            "device",
+            "software",
+            "valid",
+            "last_run",
+            "run_type",
+            "valid_software",
+        ]
 
 class InventoryItemSoftwareValidationResultTable(BaseTable):
     """Table for inventory item software validation report."""

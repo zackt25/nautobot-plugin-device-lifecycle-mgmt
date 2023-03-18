@@ -25,3 +25,9 @@ class URL:  # pylint: disable=too-few-public-methods
 
         List = "plugins:nautobot_device_lifecycle_mgmt:validatedsoftwarelcm_list"
         View = "plugins:nautobot_device_lifecycle_mgmt:validatedsoftwarelcm"
+
+    class DeviceSoftwareValidationResult:  # pylint: disable=too-few-public-methods
+        """URLs associated with the DeviceSoftwareValidationResult portion of device lifecycle."""
+
+        List = "plugins:nautobot_device_lifecycle_mgmt:devicesoftwarevalidationresult_list"
+        View = "plugins:nautobot_device_lifecycle_mgmt:devicesoftwarevalidationresult"
