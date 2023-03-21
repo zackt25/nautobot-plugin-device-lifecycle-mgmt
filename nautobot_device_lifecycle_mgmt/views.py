@@ -37,6 +37,7 @@ from nautobot_device_lifecycle_mgmt.tables import (
     DeviceSoftwareValidationResultTable,
     DeviceSoftwareValidationResultListTable,
     InventoryItemSoftwareValidationResultTable,
+    InventoryItemSoftwareValidationResultListTable,
     ContractLCMTable,
     ProviderLCMTable,
     ContactLCMTable,
@@ -713,7 +714,7 @@ class ValidatedSoftwareInventoryItemReportView(generic.ObjectListView):
     table = InventoryItemSoftwareValidationResultTable
     template_name = "nautobot_device_lifecycle_mgmt/validatedsoftware_inventoryitem_report.html"
     queryset = (
-        InventoryItemSoftwareValidationResult.objects.values("inventory_item__part_id")
+        InventoryItemSoftwareValidationResult.objects.values("inventory_item__part_id", "inventory_item__pk")
         .distinct()
         .annotate(
             total=Count("inventory_item__part_id"),
@@ -839,6 +840,24 @@ class ValidatedSoftwareInventoryItemReportView(generic.ObjectListView):
 
         return "\n".join(csv_data)
 
+
+class InventoryItemSoftwareValidationResultListView(generic.ObjectListView):
+    """DeviceSoftawareValidationResult List view."""
+
+    queryset = InventoryItemSoftwareValidationResult.objects.all()
+    filterset = InventoryItemSoftwareValidationResultFilterSet
+    filterset_form = InventoryItemSoftwareValidationResultFilterForm
+    table = InventoryItemSoftwareValidationResultListTable
+    action_buttons = (
+        "export",
+    )
+    template_name = "nautobot_device_lifecycle_mgmt/inventoryitemsoftwarevalidationresult_list.html"
+
+
+class InventoryItemSoftwareValidationResultView(generic.ObjectView):
+    """DeviceSoftawareValidationResult Detail view."""
+
+    queryset = InventoryItemSoftwareValidationResult.objects.all()
 
 # ---------------------------------------------------------------------------------
 #  Contract Lifecycle Management Views

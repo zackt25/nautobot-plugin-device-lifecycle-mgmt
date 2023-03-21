@@ -268,14 +268,29 @@ class DeviceSoftwareValidationResultListTable(BaseTable):
             "valid_software",
         ]
 
-class InventoryItemSoftwareValidationResultTable(BaseTable):
-    """Table for inventory item software validation report."""
 
-    part_id = tables.Column(accessor="inventory_item__part_id", verbose_name="Part ID")
-    total = tables.Column(accessor="total", verbose_name="Total")
-    valid = tables.Column(accessor="valid", verbose_name="Valid")
-    invalid = tables.Column(accessor="invalid", verbose_name="Invalid")
-    no_software = tables.Column(accessor="no_software", verbose_name="No Software")
+class InventoryItemSoftwareValidationResultTable(BaseTable):
+    """Table for InventoryItemSoftwareValidationResultTable."""
+
+    part_id = tables.TemplateColumn(
+        '<a href="/dcim/inventory-items/{{ record.inventory_item__pk }}/?tab=main">{{ record.inventory_item__part_id }}</a>'
+    )
+    total = tables.TemplateColumn(
+        '<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
+        '?&part_id={{ record.inventory_item__part_id }}">{{ record.total }}</a>'
+    )
+    valid = tables.TemplateColumn(
+        '<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
+        '?&part_id=={{ record.inventory_item__part_id }}&valid=True&exclude_sw_missing=True">{{ record.valid }}</a>'
+    )
+    invalid = tables.TemplateColumn(
+        '<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
+        '?&part_id={{ record.inventory_item__part_id }}&valid=False&exclude_sw_missing=True">{{ record.invalid }}</a>'
+    )
+    no_software = tables.TemplateColumn(
+        '<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
+        '?&part_id={{ record.inventory_item__part_id }}&sw_missing_only=True">{{ record.no_software }}</a>'
+    )
     valid_percent = PercentageColumn(accessor="valid_percent", verbose_name="Compliance (%)")
 
     class Meta(BaseTable.Meta):  # pylint: disable=too-few-public-methods
@@ -290,6 +305,31 @@ class InventoryItemSoftwareValidationResultTable(BaseTable):
             "invalid",
             "no_software",
             "valid_percent",
+        ]
+
+
+class InventoryItemSoftwareValidationResultListTable(BaseTable):
+    """Table for a list of intenotry items to software validation report."""
+
+    part_id = tables.Column(accessor="inventory_item__part_id", verbose_name="Part ID")
+    software = tables.Column(accessor="software", verbose_name="Current Software", linkify=True)
+    valid = tables.Column(accessor="is_validated", verbose_name="Valid")
+    last_run = tables.Column(accessor="last_run", verbose_name="Last Run")
+    run_type = tables.Column(accessor="run_type", verbose_name="Run Type")
+    valid_software = tables.Column(accessor="valid_software", verbose_name="Validated Software", linkify=True)
+
+    class Meta(BaseTable.Meta):  # pylint: disable=too-few-public-methods
+        """Metaclass attributes of InventoryItemSoftwareValidationResultTable."""
+
+        model = InventoryItemSoftwareValidationResult
+        fields = ["part_id", "software", "valid", "last_run", "run_type", "valid_software"]
+        default_columns = [
+            "part_id",
+            "software",
+            "valid",
+            "last_run",
+            "run_type",
+            "valid_software",
         ]
 
 

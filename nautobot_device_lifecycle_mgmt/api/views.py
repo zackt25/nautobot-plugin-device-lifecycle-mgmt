@@ -14,6 +14,7 @@ from nautobot_device_lifecycle_mgmt.models import (
     CVELCM,
     VulnerabilityLCM,
     DeviceSoftwareValidationResult,
+    InventoryItemSoftwareValidationResult,
 )
 from nautobot_device_lifecycle_mgmt.filters import (
     HardwareLCMFilterSet,
@@ -26,6 +27,7 @@ from nautobot_device_lifecycle_mgmt.filters import (
     CVELCMFilterSet,
     VulnerabilityLCMFilterSet,
     DeviceSoftwareValidationResultFilterSet,
+    InventoryItemSoftwareValidationResultFilterSet,
 )
 
 from .serializers import (
@@ -39,6 +41,7 @@ from .serializers import (
     CVELCMSerializer,
     VulnerabilityLCMSerializer,
     DeviceSoftwareValidationResultSerializer,
+    InventoryItemSoftwareValidationResultSerializer,
 )
 
 
@@ -123,6 +126,17 @@ class DeviceSoftwareValidationResultListViewSet(CustomFieldModelViewSet):
     queryset = DeviceSoftwareValidationResult.objects.all()
     serializer_class = DeviceSoftwareValidationResultSerializer
     filterset_class = DeviceSoftwareValidationResultFilterSet
+
+    # Disabling POST as these should only be created via Job.
+    http_method_names = ["get", "head", "options"]
+
+
+class InventoryItemSoftwareValidationResultListViewSet(CustomFieldModelViewSet):
+    """REST API viewset for DeviceSoftwareValidationResult records."""
+
+    queryset = InventoryItemSoftwareValidationResult.objects.all()
+    serializer_class = InventoryItemSoftwareValidationResultSerializer
+    filterset_class = InventoryItemSoftwareValidationResultFilterSet
 
     # Disabling POST as these should only be created via Job.
     http_method_names = ["get", "head", "options"]

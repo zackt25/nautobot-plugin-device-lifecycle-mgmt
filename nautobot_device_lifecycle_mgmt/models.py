@@ -501,6 +501,19 @@ class InventoryItemSoftwareValidationResult(PrimaryModel):
     is_validated = models.BooleanField(null=True, blank=True)
     last_run = models.DateTimeField(null=True, blank=True)
     run_type = models.CharField(max_length=50, choices=choices.ReportRunTypeChoices)
+    valid_software = models.ForeignKey(
+        to="ValidatedSoftwareLCM", on_delete=models.CASCADE, null=True, blank=True, verbose_name="Software"
+    )
+
+    csv_headers = [
+        "inventory_item",
+        "software",
+        "is_validated",
+        "last_run",
+        "run_type",
+        "valid_software",
+    ]
+
 
     class Meta:
         """Meta attributes for InventoryItemSoftwareValidationResult."""
@@ -510,7 +523,14 @@ class InventoryItemSoftwareValidationResult(PrimaryModel):
 
     def to_csv(self):
         """Indicates model fields to return as csv."""
-        return (self.inventory_item.name, self.software.version, self.is_validated, self.last_run, self.run_type)
+        return (
+            self.inventory_item.name,
+            self.software if self.software else "None",
+            str(self.is_validated),
+            self.last_run,
+            self.run_type,
+            self.valid_software.software,
+        )
 
 
 @extras_features(

@@ -583,7 +583,18 @@ class DeviceSoftwareValidationResultFilterForm(BootstrapMixin, CustomFieldModelF
         """Meta attributes."""
 
         model = DeviceSoftwareValidationResult
-        fields = ["q", "software", "valid", "site", "region", "device", "device_type", "device_role", "exclude_sw_missing", "sw_missing_only"]
+        fields = [
+            "q",
+            "software",
+            "valid",
+            "site",
+            "region",
+            "device",
+            "device_type",
+            "device_role",
+            "exclude_sw_missing",
+            "sw_missing_only"
+        ]
 
 
 class InventoryItemSoftwareValidationResultFilterForm(BootstrapMixin, CustomFieldModelForm, RelationshipModelForm):
@@ -597,6 +608,11 @@ class InventoryItemSoftwareValidationResultFilterForm(BootstrapMixin, CustomFiel
         queryset=SoftwareLCM.objects.all(),
         to_field_name="version",
         required=False,
+    )
+    valid = forms.BooleanField(
+        required=False,
+        widget=StaticSelect2(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        label="Valid",
     )
     site = DynamicModelMultipleChoiceField(
         queryset=Site.objects.all(),
@@ -637,6 +653,11 @@ class InventoryItemSoftwareValidationResultFilterForm(BootstrapMixin, CustomFiel
         widget=StaticSelect2(choices=BOOLEAN_WITH_BLANK_CHOICES),
         label="Exclude missing software",
     )
+    sw_missing_only = forms.BooleanField(
+        required=False,
+        widget=StaticSelect2(choices=BOOLEAN_WITH_BLANK_CHOICES),
+        label="Show only missing software",
+    )
 
     class Meta:
         """Meta attributes."""
@@ -645,6 +666,7 @@ class InventoryItemSoftwareValidationResultFilterForm(BootstrapMixin, CustomFiel
         fields = [
             "q",
             "software",
+            "valid",
             "site",
             "region",
             "inventory_item",
@@ -653,6 +675,7 @@ class InventoryItemSoftwareValidationResultFilterForm(BootstrapMixin, CustomFiel
             "device_type",
             "device_role",
             "exclude_sw_missing",
+            "sw_missing_only",
         ]
 
 

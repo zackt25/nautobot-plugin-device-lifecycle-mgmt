@@ -267,6 +267,13 @@ menu_items = (
                             "nautobot_device_lifecycle_mgmt.view_validatedsoftwarelcm",
                         ],
                     ),
+                    NavMenuItem(
+                        link="plugins:nautobot_device_lifecycle_mgmt:inventoryitemsoftwarevalidationresult_list",
+                        name="Inventory Item Software Validation - List",
+                        permissions=[
+                            "nautobot_device_lifecycle_mgmt.view_inventoryitemsoftwarevalidationresult",
+                        ],
+                    ),
                 ),
             ),
         ),
