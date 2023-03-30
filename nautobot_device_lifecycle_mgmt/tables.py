@@ -252,20 +252,18 @@ class DeviceSoftwareValidationResultListTable(BaseTable):
     valid = tables.Column(accessor="is_validated", verbose_name="Valid")
     last_run = tables.Column(accessor="last_run", verbose_name="Last Run")
     run_type = tables.Column(accessor="run_type", verbose_name="Run Type")
-    valid_software = tables.Column(accessor="valid_software", verbose_name="Validated Software", linkify=True)
     
     class Meta(BaseTable.Meta):  # pylint: disable=too-few-public-methods
         """Metaclass attributes of DeviceSoftwareValidationResultTable."""
 
         model = DeviceSoftwareValidationResult
-        fields = ["device", "software", "valid", "last_run", "run_type", "valid_software"]
+        fields = ["device", "software", "valid", "last_run", "run_type"]
         default_columns = [
             "device",
             "software",
             "valid",
             "last_run",
             "run_type",
-            "valid_software",
         ]
 
 

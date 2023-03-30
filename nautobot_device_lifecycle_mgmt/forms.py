@@ -3,7 +3,7 @@ import logging
 from django import forms
 from django.db.models import Q
 
-from nautobot.dcim.models import Device, DeviceRole, DeviceType, InventoryItem, Platform, Region, Site
+from nautobot.dcim.models import Device, DeviceRole, DeviceType, InventoryItem, Platform, Region, Site, Manufacturer
 from nautobot.extras.forms import (
     CustomFieldModelCSVForm,
     CustomFieldModelForm,
@@ -538,6 +538,10 @@ class DeviceSoftwareValidationResultFilterForm(BootstrapMixin, CustomFieldModelF
         to_field_name="version",
         required=False,
     )
+    platform = DynamicModelMultipleChoiceField(
+        queryset=Platform.objects.all(),
+        label="Platform",
+    )
     valid = forms.BooleanField(
         required=False,
         widget=StaticSelect2(choices=BOOLEAN_WITH_BLANK_CHOICES),
@@ -587,6 +591,7 @@ class DeviceSoftwareValidationResultFilterForm(BootstrapMixin, CustomFieldModelF
             "q",
             "software",
             "valid",
+            "platform",
             "site",
             "region",
             "device",
@@ -613,6 +618,10 @@ class InventoryItemSoftwareValidationResultFilterForm(BootstrapMixin, CustomFiel
         required=False,
         widget=StaticSelect2(choices=BOOLEAN_WITH_BLANK_CHOICES),
         label="Valid",
+    )
+    manufacturer = DynamicModelMultipleChoiceField(
+        queryset=Manufacturer.objects.all(),
+        label="Manufacturer",
     )
     site = DynamicModelMultipleChoiceField(
         queryset=Site.objects.all(),
@@ -667,6 +676,7 @@ class InventoryItemSoftwareValidationResultFilterForm(BootstrapMixin, CustomFiel
             "q",
             "software",
             "valid",
+            "manufacturer",
             "site",
             "region",
             "inventory_item",

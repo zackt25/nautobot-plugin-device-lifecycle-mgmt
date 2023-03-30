@@ -3,7 +3,7 @@ import datetime
 
 import django_filters
 from django.db.models import Q
-from nautobot.dcim.models import Device, DeviceRole, DeviceType, InventoryItem, Platform, Region, Site
+from nautobot.dcim.models import Device, DeviceRole, DeviceType, InventoryItem, Platform, Region, Site, Manufacturer
 from nautobot.extras.filters import StatusFilter, StatusModelFilterSetMixin, TagFilter
 from nautobot.extras.models import Tag
 
@@ -427,6 +427,11 @@ class DeviceSoftwareValidationResultFilterSet(NautobotFilterSet):
         label="Valid",
         field_name="is_validated",
     )
+    platform = django_filters.ModelMultipleChoiceFilter(
+        field_name="device__platform",
+        queryset=Platform.objects.all(),
+        label="Platform",
+    )
     site_id = django_filters.ModelMultipleChoiceFilter(
         field_name="device__site",
         queryset=Site.objects.all(),
@@ -498,6 +503,7 @@ class DeviceSoftwareValidationResultFilterSet(NautobotFilterSet):
 
         fields = [
             "software",
+            "platform",
             "site",
             "region",
             "device",
@@ -543,6 +549,11 @@ class InventoryItemSoftwareValidationResultFilterSet(NautobotFilterSet):
     valid = django_filters.BooleanFilter(
         label="Valid",
         field_name="is_validated",
+    )
+    manufacturer = django_filters.ModelMultipleChoiceFilter(
+        field_name="device__manufacturer",
+        queryset=Manufacturer.objects.all(),
+        label="Manufacturer",
     )
     site_id = django_filters.ModelMultipleChoiceFilter(
         field_name="inventory_item__device__site",
@@ -627,6 +638,7 @@ class InventoryItemSoftwareValidationResultFilterSet(NautobotFilterSet):
 
         fields = [
             "software",
+            "manufacturer",
             "site",
             "region",
             "inventory_item",

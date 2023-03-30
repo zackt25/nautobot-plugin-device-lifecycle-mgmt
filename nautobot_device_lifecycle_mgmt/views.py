@@ -5,6 +5,7 @@ import logging
 import urllib
 
 import matplotlib.pyplot as plt
+from matplotlib.widgets import Button
 from matplotlib.ticker import MaxNLocator
 import numpy as np
 
@@ -537,7 +538,6 @@ class ReportOverviewHelper(ContentTypePermissionRequiredMixin, generic.View):
 
         for rect in rects:
             autolabel(rect)
-
         return ReportOverviewHelper.url_encode_figure(fig)
 
     @staticmethod
