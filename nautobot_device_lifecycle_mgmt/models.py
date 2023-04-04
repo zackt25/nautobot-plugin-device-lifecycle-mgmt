@@ -451,9 +451,7 @@ class DeviceSoftwareValidationResult(PrimaryModel):
     is_validated = models.BooleanField(null=True, blank=True)
     last_run = models.DateTimeField(null=True, blank=True)
     run_type = models.CharField(max_length=50, choices=choices.ReportRunTypeChoices)
-    valid_software = models.ManyToManyField(
-        to="ValidatedSoftwareLCM", related_name="+"
-    )
+    valid_software = models.ManyToManyField(to="ValidatedSoftwareLCM", related_name="+")
 
     csv_headers = [
         "device",
@@ -464,7 +462,6 @@ class DeviceSoftwareValidationResult(PrimaryModel):
         "approved_software",
     ]
 
-
     class Meta:
         """Meta attributes for DeviceSoftwareValidationResult."""
 
@@ -474,7 +471,7 @@ class DeviceSoftwareValidationResult(PrimaryModel):
     def to_csv(self):
         """Indicates model fields to return as csv."""
         valid_softwares = ""
-        for validated_software_id in self.valid_software.values_list("id",flat=True):
+        for validated_software_id in self.valid_software.values_list("id", flat=True):
             sofware_string = ValidatedSoftwareLCM.objects.get(id=validated_software_id).software
             valid_softwares += f"{str(sofware_string)}\n"
         return (
@@ -505,9 +502,7 @@ class InventoryItemSoftwareValidationResult(PrimaryModel):
     is_validated = models.BooleanField(null=True, blank=True)
     last_run = models.DateTimeField(null=True, blank=True)
     run_type = models.CharField(max_length=50, choices=choices.ReportRunTypeChoices)
-    valid_software = models.ManyToManyField(
-        to="ValidatedSoftwareLCM", related_name="+"
-    )
+    valid_software = models.ManyToManyField(to="ValidatedSoftwareLCM", related_name="+")
 
     csv_headers = [
         "device",
@@ -518,7 +513,6 @@ class InventoryItemSoftwareValidationResult(PrimaryModel):
         "approved_software",
     ]
 
-
     class Meta:
         """Meta attributes for InventoryItemSoftwareValidationResult."""
 
@@ -528,7 +522,7 @@ class InventoryItemSoftwareValidationResult(PrimaryModel):
     def to_csv(self):
         """Indicates model fields to return as csv."""
         valid_softwares = ""
-        for validated_software_id in self.valid_software.values_list("id",flat=True):
+        for validated_software_id in self.valid_software.values_list("id", flat=True):
             sofware_string = ValidatedSoftwareLCM.objects.get(id=validated_software_id).software
             valid_softwares += f"{str(sofware_string)}\n"
         return (

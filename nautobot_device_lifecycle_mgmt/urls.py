@@ -124,7 +124,7 @@ urlpatterns = [
     path(
         "inventory-item-validated-software-result/<uuid:pk>/",
         views.InventoryItemSoftwareValidationResultListView.as_view(),
-        name="inventoryitemsoftwarevalidationresult"
+        name="inventoryitemsoftwarevalidationresult",
     ),
     # Contract Lifecycle Management URLs
     path("contract/", views.ContractLCMListView.as_view(), name="contractlcm_list"),

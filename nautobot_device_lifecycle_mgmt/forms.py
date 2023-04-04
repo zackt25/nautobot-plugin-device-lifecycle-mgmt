@@ -598,7 +598,7 @@ class DeviceSoftwareValidationResultFilterForm(BootstrapMixin, CustomFieldModelF
             "device_type",
             "device_role",
             "exclude_sw_missing",
-            "sw_missing_only"
+            "sw_missing_only",
         ]
 
 

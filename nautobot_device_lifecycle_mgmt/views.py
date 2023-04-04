@@ -5,7 +5,6 @@ import logging
 import urllib
 
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Button
 from matplotlib.ticker import MaxNLocator
 import numpy as np
 
@@ -694,9 +693,7 @@ class DeviceSoftwareValidationResultListView(generic.ObjectListView):
     filterset = DeviceSoftwareValidationResultFilterSet
     filterset_form = DeviceSoftwareValidationResultFilterForm
     table = DeviceSoftwareValidationResultListTable
-    action_buttons = (
-        "export",
-    )
+    action_buttons = ("export",)
     template_name = "nautobot_device_lifecycle_mgmt/devicesoftwarevalidationresult_list.html"
 
 
@@ -848,9 +845,7 @@ class InventoryItemSoftwareValidationResultListView(generic.ObjectListView):
     filterset = InventoryItemSoftwareValidationResultFilterSet
     filterset_form = InventoryItemSoftwareValidationResultFilterForm
     table = InventoryItemSoftwareValidationResultListTable
-    action_buttons = (
-        "export",
-    )
+    action_buttons = ("export",)
     template_name = "nautobot_device_lifecycle_mgmt/inventoryitemsoftwarevalidationresult_list.html"
 
 
@@ -858,6 +853,7 @@ class InventoryItemSoftwareValidationResultView(generic.ObjectView):
     """DeviceSoftawareValidationResult Detail view."""
 
     queryset = InventoryItemSoftwareValidationResult.objects.all()
+
 
 # ---------------------------------------------------------------------------------
 #  Contract Lifecycle Management Views
