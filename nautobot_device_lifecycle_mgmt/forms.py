@@ -541,6 +541,7 @@ class DeviceSoftwareValidationResultFilterForm(BootstrapMixin, CustomFieldModelF
     platform = DynamicModelMultipleChoiceField(
         queryset=Platform.objects.all(),
         label="Platform",
+        required=False,
     )
     valid = forms.BooleanField(
         required=False,
@@ -622,6 +623,7 @@ class InventoryItemSoftwareValidationResultFilterForm(BootstrapMixin, CustomFiel
     manufacturer = DynamicModelMultipleChoiceField(
         queryset=Manufacturer.objects.all(),
         label="Manufacturer",
+        required=False,
     )
     site = DynamicModelMultipleChoiceField(
         queryset=Site.objects.all(),

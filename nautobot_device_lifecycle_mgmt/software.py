@@ -58,7 +58,7 @@ class ItemSoftware:
         """Validate software against the validated software objects."""
         if not (self.software and self.validated_software_qs.count()):
             try:
-                self.validated_software_qs[0]
+                self.validated_software_qs
             except IndexError:
                 self.validated_software_qs = [None]
             return (False, self.validated_software_qs)
