@@ -281,7 +281,11 @@ class InventoryItemSoftwareValidationResultTable(BaseTable):
     """Table for InventoryItemSoftwareValidationResultTable."""
 
     part_id = tables.TemplateColumn(
-        '<a href="/dcim/inventory-items/{{ record.inventory_item__pk }}/?tab=main">{{ record.inventory_item__part_id }}</a>'
+        template_code="""{% if record.inventory_item__part_id  %}
+        <a href="/dcim/inventory-items/{{ record.inventory_item__pk }}/?tab=main">{{ record.inventory_item__part_id }}</a>
+        {% else %}
+        Please assign Part ID string to Inventory Item
+        {% endif %}"""
     )
     total = tables.TemplateColumn(
         '<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
@@ -319,7 +323,7 @@ class InventoryItemSoftwareValidationResultTable(BaseTable):
 class InventoryItemSoftwareValidationResultListTable(BaseTable):
     """Table for a list of intenotry items to software validation report."""
 
-    part_id = tables.Column(accessor="inventory_item__part_id", verbose_name="Part ID")
+    part_id = tables.Column(accessor="inventory_item__part_id", verbose_name="Part ID", default="Please assign Part ID string to Inventory Item")
     software = tables.Column(accessor="software", verbose_name="Current Software", linkify=True)
     valid = tables.Column(accessor="is_validated", verbose_name="Valid")
     last_run = tables.Column(accessor="last_run", verbose_name="Last Run")
