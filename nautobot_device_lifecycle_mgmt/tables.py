@@ -209,27 +209,23 @@ class DeviceSoftwareValidationResultTable(BaseTable):
     """Table for device software validation report."""
 
     name = tables.TemplateColumn(
-        template_code = '<a href="/dcim/devices/?device_type_id={{ record.device__device_type__pk }}">{{ record.device__device_type__model }}</a>'
+        template_code='<a href="/dcim/devices/?device_type_id={{ record.device__device_type__pk }}">{{ record.device__device_type__model }}</a>'
     )
     total = tables.TemplateColumn(
-        template_code = 
-            '<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
-            '?&device_type={{ record.device__device_type__model }}">{{ record.total }}</a>'
+        template_code='<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
+        '?&device_type={{ record.device__device_type__model }}">{{ record.total }}</a>'
     )
     valid = tables.TemplateColumn(
-        template_code = 
-            '<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
-            '?&device_type={{ record.device__device_type__model }}&valid=True&exclude_sw_missing=True">{{ record.valid }}</a>'
+        template_code='<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
+        '?&device_type={{ record.device__device_type__model }}&valid=True&exclude_sw_missing=True">{{ record.valid }}</a>'
     )
     invalid = tables.TemplateColumn(
-        template_code = 
-            '<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
-            '?&device_type={{ record.device__device_type__model }}&valid=False&exclude_sw_missing=True">{{ record.invalid }}</a>'
+        template_code='<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
+        '?&device_type={{ record.device__device_type__model }}&valid=False&exclude_sw_missing=True">{{ record.invalid }}</a>'
     )
     no_software = tables.TemplateColumn(
-        template_code =
-            '<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
-            '?&device_type={{ record.device__device_type__model }}&sw_missing_only=True">{{ record.no_software }}</a>'
+        template_code='<a href="/plugins/nautobot-device-lifecycle-mgmt/device-validated-software-result/'
+        '?&device_type={{ record.device__device_type__model }}&sw_missing_only=True">{{ record.no_software }}</a>'
     )
     valid_percent = PercentageColumn(accessor="valid_percent", verbose_name="Compliance (%)")
     actions = tables.TemplateColumn(
@@ -298,24 +294,20 @@ class InventoryItemSoftwareValidationResultTable(BaseTable):
         {% endif %}"""
     )
     total = tables.TemplateColumn(
-        template_code =
-            '<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
-            '?&part_id={{ record.inventory_item__part_id }}">{{ record.total }}</a>'
+        template_code='<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
+        '?&part_id={{ record.inventory_item__part_id }}">{{ record.total }}</a>'
     )
     valid = tables.TemplateColumn(
-        template_code =
-            '<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
-            '?&part_id=={{ record.inventory_item__part_id }}&valid=True&exclude_sw_missing=True">{{ record.valid }}</a>'
+        template_code='<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
+        '?&part_id=={{ record.inventory_item__part_id }}&valid=True&exclude_sw_missing=True">{{ record.valid }}</a>'
     )
     invalid = tables.TemplateColumn(
-        template_code =
-            '<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
-            '?&part_id={{ record.inventory_item__part_id }}&valid=False&exclude_sw_missing=True">{{ record.invalid }}</a>'
+        template_code='<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
+        '?&part_id={{ record.inventory_item__part_id }}&valid=False&exclude_sw_missing=True">{{ record.invalid }}</a>'
     )
     no_software = tables.TemplateColumn(
-        template_code =
-            '<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
-            '?&part_id={{ record.inventory_item__part_id }}&sw_missing_only=True">{{ record.no_software }}</a>'
+        template_code='<a href="/plugins/nautobot-device-lifecycle-mgmt/inventory-item-validated-software-result/'
+        '?&part_id={{ record.inventory_item__part_id }}&sw_missing_only=True">{{ record.no_software }}</a>'
     )
     valid_percent = PercentageColumn(accessor="valid_percent", verbose_name="Compliance (%)")
     actions = tables.TemplateColumn(
@@ -343,7 +335,11 @@ class InventoryItemSoftwareValidationResultTable(BaseTable):
 class InventoryItemSoftwareValidationResultListTable(BaseTable):
     """Table for a list of intenotry items to software validation report."""
 
-    part_id = tables.Column(accessor="inventory_item__part_id", verbose_name="Part ID", default="Please assign Part ID value to Inventory Item")
+    part_id = tables.Column(
+        accessor="inventory_item__part_id",
+        verbose_name="Part ID",
+        default="Please assign Part ID value to Inventory Item",
+    )
     software = tables.Column(accessor="software", verbose_name="Current Software", linkify=True)
     valid = tables.Column(accessor="is_validated", verbose_name="Valid")
     last_run = tables.Column(accessor="last_run", verbose_name="Last Run")
