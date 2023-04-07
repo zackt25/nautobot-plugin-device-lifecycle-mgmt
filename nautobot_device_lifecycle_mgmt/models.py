@@ -505,7 +505,7 @@ class InventoryItemSoftwareValidationResult(PrimaryModel):
     valid_software = models.ManyToManyField(to="ValidatedSoftwareLCM", related_name="+")
 
     csv_headers = [
-        "device",
+        "inventory_item",
         "software",
         "valid",
         "last_run",
@@ -526,7 +526,7 @@ class InventoryItemSoftwareValidationResult(PrimaryModel):
             sofware_string = ValidatedSoftwareLCM.objects.get(id=validated_software_id).software
             valid_softwares += f"{str(sofware_string)}\n"
         return (
-            self.inventory_item.name,
+            self.inventory_item.part_id,
             self.software if self.software else "None",
             str(self.is_validated),
             self.last_run,
